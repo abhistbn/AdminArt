@@ -17,6 +17,21 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
+
+// Admin Routes
+$router->group(['prefix' => 'admin'], function () use ($router) {
+    
+    // Articles Management
+    $router->get('/articles', 'ArticleEditController@index');
+    $router->get('/articles/create', 'ArticleEditController@create');
+    $router->post('/articles', 'ArticleEditController@store');
+    $router->get('/articles/{id}', 'ArticleEditController@show');
+    $router->get('/articles/{id}/edit', 'ArticleEditController@edit');
+    $router->put('/articles/{id}', 'ArticleEditController@update');
+    $router->delete('/articles/{id}', 'ArticleEditController@destroy');
+    $router->get('/articles/{id}/preview', 'ArticleEditController@preview');
+    
+});
 // Grup Rute API kita
 $router->group(['prefix' => 'api'], function () use ($router) {
     // Rute untuk Kategori
