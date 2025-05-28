@@ -32,3 +32,11 @@ $router->group(['prefix' => 'admin'], function () use ($router) {
     $router->get('/articles/{id}/preview', 'ArticleEditController@preview');
     
 });
+// Grup Rute API kita
+$router->group(['prefix' => 'api'], function () use ($router) {
+    // Rute untuk Kategori
+    $router->get('categories', 'CategoryController@index');
+    $router->post('categories', 'CategoryController@store');
+
+    // (Anda bisa menambahkan rute API lain di sini nanti)
+});
