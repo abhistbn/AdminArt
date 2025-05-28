@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Kategori</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Manajemen Kategori</h1>
+        </header>
+
+        <main class="layout">
+            <section class="category-list-section card">
+                <h2>Daftar Kategori</h2>
+                <ul id="categoryList" class="category-list">
+                    <li class="loading-placeholder">Memuat kategori...</li>
+                </ul>
+            </section>
+
+            <section class="add-category-section card">
+                <h2>Tambah Kategori Baru</h2>
+                <form id="addCategoryForm" class="category-form">
+                    <div class="form-group">
+                        <label for="categoryName">Nama Kategori:</label>
+                        <input type="text" id="categoryName" name="categoryName" placeholder="cth: Elektronik" required>
+                    </div>
+                    <button type="submit" class="button-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+                        </svg>
+                        Tambah
+                    </button>
+                </form>
+                <div id="messageArea" class="message-area" role="alert"></div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Aplikasi Manajemen Kategori</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+/* public/style.css */
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f2f5; /* Warna latar belakang yang lebih lembut */
+    color: #333;
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align items to the top */
+    min-height: 100vh;
+    padding-top: 20px; /* Padding atas untuk body */
+    padding-bottom: 20px; /* Padding bawah untuk body */
+}
+
+.container {
+    width: 90%;
+    max-width: 1000px; /* Batas lebar maksimum container */
+    margin: 0 auto; /* Pusatkan container */
+    background-color: #ffffff;
+    padding: 20px 30px;
+    border-radius: 12px; /* Sudut lebih bulat */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Bayangan yang lebih halus */
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px; /* Jarak lebih besar di bawah header */
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+header h1 {
+    color: #2c3e50; /* Warna judul yang lebih modern */
+    font-weight: 700;
+    font-size: 2em; /* Ukuran font lebih besar */
+}
+
+.layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dua kolom dengan lebar sama */
+    gap: 30px; /* Jarak antar kolom */
+}
+
+.card {
+    background-color: #fff;
+    padding: 25px; /* Padding lebih besar dalam card */
+    border-radius: 10px; /* Sudut card yang lebih bulat */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Bayangan halus untuk card */
+}
+
+.card h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #34495e; /* Warna subjudul */
+    font-size: 1.5em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+/* Styling untuk daftar kategori */
+.category-list {
+    list-style-type: none;
+    padding: 0;
+    max-height: 300px; /* Batas tinggi dengan scroll jika perlu */
+    overflow-y: auto; /* Tambahkan scroll jika item banyak */
+}
+
+.category-list li {
+    background-color: #f9f9f9; /* Warna latar item list */
+    border: 1px solid #e7e7e7;
+    padding: 12px 15px; /* Padding item list */
+    margin-bottom: 8px;
+    border-radius: 6px; /* Sudut item list */
+    font-size: 0.95em;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.category-list li:hover {
+    background-color: #e9ecef; /* Efek hover */
+}
+
+.category-list li.loading-placeholder {
+    color: #777;
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
+    background-color: transparent;
+    border: none;
+}
+
+/* Styling untuk form */
+.category-form .form-group {
+    margin-bottom: 20px; /* Jarak antar grup form */
+}
+
+.category-form label {
+    display: block;
+    margin-bottom: 8px; /* Jarak label ke input */
+    font-weight: 500;
+    color: #555;
+}
+
+.category-form input[type="text"] {
+    width: calc(100% - 24px); /* Lebar input dikurangi padding */
+    padding: 12px; /* Padding input */
+    border: 1px solid #ccc;
+    border-radius: 6px; /* Sudut input */
+    font-size: 1em;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.category-form input[type="text"]:focus {
+    border-color: #007bff; /* Warna border saat fokus */
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Efek shadow saat fokus */
+    outline: none;
+}
+
+.button-primary {
+    background-color: #007bff; /* Warna tombol utama */
+    color: white;
+    padding: 12px 20px; /* Padding tombol */
+    border: none;
+    border-radius: 6px; /* Sudut tombol */
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 500;
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Jarak antara ikon dan teks */
+}
+
+.button-primary:hover {
+    background-color: #0056b3; /* Warna tombol saat hover */
+}
+
+.button-primary:active {
+    transform: translateY(1px); /* Efek tekan */
+}
+
+.button-primary svg {
+    vertical-align: middle;
+}
+
+/* Area pesan */
+.message-area {
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 0.9em;
+    text-align: center;
+}
+
+.message-area.success {
+    background-color: #d4edda; /* Latar hijau untuk sukses */
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.message-area.error {
+    background-color: #f8d7da; /* Latar merah untuk error */
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+footer {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #e0e0e0;
+    font-size: 0.9em;
+    color: #777;
+}
+
+/* Responsif untuk layar yang lebih kecil */
+@media (max-width: 768px) {
+    .layout {
+        grid-template-columns: 1fr; /* Satu kolom di layar kecil */
+    }
+
+    .container {
+        width: 95%;
+        padding: 15px;
+    }
+
+    header h1 {
+        font-size: 1.8em;
+    }
+
+    .card h2 {
+        font-size: 1.3em;
+    }
+}
