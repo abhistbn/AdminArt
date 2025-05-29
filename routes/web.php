@@ -17,9 +17,6 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-// ======================================================================
-// GRUP RUTE API (UNTUK JSON RESPONSE - DIGUNAKAN OLEH JAVASCRIPT)
-// ======================================================================
 $router->group(['prefix' => 'api'], function () use ($router) {
     // Rute untuk Kategori
     $router->get('categories', 'CategoryController@index');
