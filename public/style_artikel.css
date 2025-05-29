@@ -1,0 +1,453 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #f8f9fa;
+    line-height: 1.6;
+    color: #333; /* Warna teks default */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header */
+.header {
+    background: white;
+    border-radius: 12px;
+    padding: 30px 40px; /* Sedikit disesuaikan paddingnya */
+    margin-bottom: 30px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08); /* Bayangan lebih halus */
+    text-align: center;
+}
+
+.header h1 {
+    color: #2c3e50;
+    font-size: 2.2rem; /* Sedikit disesuaikan */
+    font-weight: 700;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.header .icon {
+    width: 45px; /* Sedikit disesuaikan */
+    height: 45px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 10px; /* Sedikit disesuaikan */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 22px; /* Sedikit disesuaikan */
+}
+
+.header p {
+    color: #7f8c8d;
+    font-size: 1rem; /* Sedikit disesuaikan */
+    margin-top: 8px;
+    margin-bottom: 15px; /* Tambah margin bawah */
+}
+
+.main-nav a {
+    color: #3498db;
+    text-decoration: none;
+    margin: 0 10px;
+    font-weight: 500;
+}
+.main-nav a:hover {
+    text-decoration: underline;
+}
+
+
+/* Controls */
+.controls {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px; /* Sedikit disesuaikan */
+    align-items: center; /* Tengah secara vertikal */
+}
+
+.btn {
+    padding: 10px 20px; /* Sedikit disesuaikan */
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out; /* Transisi lebih cepat */
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Tombol lebih rapi */
+    gap: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Bayangan halus untuk tombol */
+}
+
+.btn:active {
+    transform: translateY(1px); /* Efek tekan */
+}
+
+.btn-primary {
+    background-color: #3498db;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+.btn-secondary {
+    background-color: #95a5a6;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #7f8c8d;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+.btn-edit {
+    background-color: #f39c12;
+    color: white;
+    padding: 6px 12px; /* Disesuaikan agar lebih kecil */
+    font-size: 12px;
+}
+
+.btn-edit:hover {
+    background-color: #e67e22;
+}
+
+.btn-delete {
+    background-color: #e74c3c;
+    color: white;
+    padding: 6px 12px; /* Disesuaikan agar lebih kecil */
+    font-size: 12px;
+}
+
+.btn-delete:hover {
+    background-color: #c0392b;
+}
+
+/* Table */
+.table-container {
+    background: white;
+    border-radius: 12px;
+    overflow-x: auto; /* Responsif untuk tabel */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    background-color: #34495e;
+    color: white;
+    padding: 18px 20px; /* Disesuaikan */
+    text-align: left;
+    font-weight: 600;
+    font-size: 13px; /* Disesuaikan */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+td {
+    padding: 18px 20px; /* Disesuaikan */
+    border-bottom: 1px solid #ecf0f1;
+    vertical-align: middle;
+    font-size: 14px; /* Warna teks default dari body */
+}
+
+tr:last-child td {
+    border-bottom: none; /* Hilangkan border untuk baris terakhir */
+}
+
+tr:hover {
+    background-color: #f5f7fa; /* Warna hover lebih lembut */
+}
+
+.article-title {
+    color: #2c3e50;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.category-badge {
+    display: inline-block;
+    padding: 5px 10px; /* Disesuaikan */
+    border-radius: 20px;
+    font-size: 11px; /* Disesuaikan */
+    font-weight: 500;
+    text-transform: capitalize;
+    border: 1px solid transparent; /* Tambah border agar ukuran konsisten */
+}
+
+/* Contoh warna kategori, sesuaikan dengan kategori Anda */
+.category-other { background-color: #ecf0f1; color: #34495e; border-color: #bdc3c7; }
+.category-web-development { background-color: #e8f5e8; color: #27ae60; border-color: #a3d3a5; }
+.category-design { background-color: #fdf2e9; color: #e67e22; border-color: #f5cba7;}
+.category-programming { background-color: #eaf2ff; color: #3498db; border-color: #a9cce3; }
+.category-database { background-color: #f4e6ff; color: #9b59b6; border-color: #d7bde2; }
+.category-berita { background-color: #fef9e7; color: #f1c40f; border-color: #f7dc6f; } /* Contoh untuk "Berita" */
+
+
+.actions {
+    display: flex;
+    gap: 8px;
+}
+
+.row-number {
+    color: #7f8c8d;
+    font-weight: 600;
+    text-align: center;
+    width: 50px; /* Disesuaikan */
+}
+
+.content-preview {
+    font-size: 13px;
+    color: #555;
+    max-width: 300px; /* Batasi lebar preview konten */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Modal */
+.modal {
+    display: none; /* Defaultnya tersembunyi */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6); /* Overlay lebih gelap */
+    z-index: 1000;
+    justify-content: center; /* Tengah secara horizontal */
+    align-items: center; /* Tengah secara vertikal */
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+    background: white;
+    padding: 25px 30px; /* Disesuaikan */
+    border-radius: 12px;
+    width: 90%;
+    max-width: 550px; /* Lebar modal sedikit lebih besar */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: slideUp 0.3s ease-out;
+    position: relative; /* Agar close button bisa absolute */
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ecf0f1;
+}
+
+.modal-header h3 {
+    font-size: 1.5rem;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    font-weight: 300;
+    color: #7f8c8d;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+}
+.close-button:hover {
+    color: #34495e;
+}
+
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 14px; /* Disesuaikan */
+}
+
+.form-group input[type="text"],
+.form-group select,
+.form-group textarea { /* Menambahkan textarea ke sini */
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d2d6dc; /* Border lebih jelas */
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group textarea {
+    resize: vertical; /* Hanya bisa di-resize tinggi */
+    min-height: 100px;
+}
+
+.form-group input[type="text"]:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2); /* Efek focus */
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 25px; /* Disesuaikan */
+}
+
+/* Notifikasi */
+#notificationContainer {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1002; /* Di atas modal */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.notification {
+    padding: 15px 20px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    min-width: 280px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    animation: slideIn 0.4s ease-out;
+    opacity: 0.95;
+}
+
+.notification.success {
+    background-color: #27ae60; /* Hijau lebih gelap */
+}
+
+.notification.error {
+    background-color: #c0392b; /* Merah lebih gelap */
+}
+
+.notification.slideOut {
+    animation: slideOut 0.4s ease-in forwards; /* Tambah forwards */
+}
+
+
+/* API Status */
+.api-status {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    padding: 8px 15px; /* Disesuaikan */
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.api-status.connected {
+    background-color: #27ae60;
+    color: white;
+}
+
+.api-status.disconnected {
+    background-color: #e74c3c;
+    color: white;
+}
+
+/* Animasi Keyframes (sudah ada di HTML Anda, pastikan tidak duplikat) */
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+@keyframes slideOut {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(100%); opacity: 0; }
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes slideUp {
+    from { transform: translate(-50%, -45%); opacity: 0; } /* Sedikit dari atas */
+    to { transform: translate(-50%, -50%); opacity: 1; }
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px; /* Disesuaikan */
+    }
+    .header h1 {
+        font-size: 1.8rem; /* Disesuaikan */
+        gap: 10px;
+    }
+    .header .icon {
+        width: 35px;
+        height: 35px;
+        font-size: 18px;
+    }
+    .controls {
+        flex-direction: column;
+    }
+    .btn {
+        width: 100%; /* Tombol full width di mobile */
+    }
+    .actions {
+        flex-direction: column;
+        gap: 5px; /* Lebih rapat */
+    }
+    .actions .btn {
+        width: auto; /* Tombol aksi tidak full width */
+    }
+    th, td {
+        padding: 12px 10px; /* Disesuaikan */
+        font-size: 13px; /* Disesuaikan */
+    }
+    .modal-content {
+        padding: 20px;
+        width: calc(100% - 30px); /* Modal hampir full width */
+    }
+    .modal-header h3 {
+        font-size: 1.3rem;
+    }
+}
+
+/* Styling untuk loading indicator */
+#loadingIndicator {
+    color: #3498db;
+    font-size: 1.2em;
+    font-weight: 500;
+}
+
+/* Styling untuk pesan error di tabel */
+.error-message {
+    color: #e74c3c;
+    font-style: italic;
+    text-align: center;
+}

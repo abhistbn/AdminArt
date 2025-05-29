@@ -192,4 +192,43 @@ footer {
     .card h2 {
         font-size: 1.3em;
     }
+
+
+    .layout-single {
+    display: block; /* Hanya satu kolom */
+}
+
+.article-form .form-group {
+    margin-bottom: 20px;
+}
+
+.article-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.article-form input[type="text"],
+.article-form textarea,
+.article-form select {
+    width: calc(100% - 24px);
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1em;
+    font-family: inherit; /* Gunakan font body */
+}
+
+.article-form textarea {
+    resize: vertical; /* Izinkan resize tinggi */
+}
+
+.article-form select {
+    width: 100%; /* Select biasanya butuh width 100% */
+}
+
+.article-form button {
+    /* Style tombol bisa sama dengan sebelumnya */
+    margin-top: 10px;
+}
 }
