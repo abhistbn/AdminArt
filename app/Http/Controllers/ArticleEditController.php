@@ -2,141 +2,134 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use Laravel\Lumen\Routing\Controller as BaseController; 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
-class ArticleEditController extends Controller
+class ArticleEditController extends BaseController
 {
     /**
-     * Display a listing of articles
-     */
-    public function index()
-    {
-        // Nanti bisa diisi dengan logic untuk menampilkan daftar artikel
-        return view('admin.articles.index');
-    }
-
-    /**
-     * Show the form for creating a new article
+     * Menampilkan form untuk membuat artikel baru.
+     * GET /admin/articles/create
      */
     public function create()
     {
-        return view('admin.articles.create');
+        try {
+            $categories = DB::table('categories')->orderBy('name', 'asc')->get();
+            // Path ke view: resources/views/admin/articles/create.blade.php
+            return view('admin.articles.create', compact('categories')); 
+        } catch (\Exception $e) {
+            Log::error('Error loading create article form: ' . $e->getMessage());
+            // Redirect ke halaman daftar dengan pesan error
+            return redirect('/article_management.html?error_message=' . urlencode('Gagal memuat form tambah artikel.'));
+        }
     }
 
     /**
-     * Store a newly created article
+     * Menyimpan artikel baru dari form.
+     * POST /admin/articles
      */
     public function store(Request $request)
     {
-        // Logic untuk menyimpan artikel baru
-        // Validasi, simpan ke database, dll
-        
-        return redirect()->route('admin.articles.index')
-                        ->with('success', 'Artikel berhasil dibuat!');
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'category_id' => 'required|integer|exists:categories,id',
+            // Tambahkan validasi untuk field lain jika ada di form create Anda
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back() // Kembali ke form create
+                        ->withErrors($validator)
+                        ->withInput(); // Bawa kembali input yang sudah diisi
+        }
+
+        try {
+            DB::table('articles')->insert([
+                'title' => $request->input('title'),
+                'content' => $request->input('content'),
+                'category_id' => $request->input('category_id'),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+                // Tambahkan field lain dari form create Anda
+            ]);
+            return redirect('/admin/articles/create?status=success&message=' . urlencode('Artikel baru berhasil dibuat!')); 
+        } catch (\Exception $e) {
+            Log::error('Store Article (from View) Failed: ' . $e->getMessage());
+            return redirect()->back()
+                        ->withInput()
+                        ->with('error_message_param', urlencode('Gagal menyimpan artikel: Terjadi kesalahan server.'));
+        }
     }
 
     /**
-     * Display the specified article
-     */
-    public function show($id)
-    {
-        // Logic untuk menampilkan detail artikel
-        return view('admin.articles.show', compact('id'));
-    }
-
-    /**
-     * Show the form for editing the specified article
+     * Menampilkan form untuk mengedit artikel.
+     * GET /admin/articles/{id}/edit
      */
     public function edit($id)
     {
-        // Dummy data - nanti diganti dengan data dari database
-        $article = (object) [
-            'id' => $id,
-            'title' => 'Panduan Lengkap React untuk Pemula',
-            'content' => 'React adalah library JavaScript yang dikembangkan oleh Facebook...',
-            'author' => 'Ahmad Fadhil',
-            'category' => 'Programming',
-            'tags' => 'React, JavaScript, Frontend, Tutorial',
-            'status' => 'published',
-            'published_at' => '2024-03-15',
-            'excerpt' => 'Pelajari konsep-konsep dasar React JavaScript library untuk membangun user interface yang interaktif dan modern.',
-            'featured_image' => 'https://via.placeholder.com/800x400/3b82f6/ffffff?text=React+Tutorial',
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s')
-        ];
+        try {
+            $article = DB::table('articles')->find($id);
 
-        return view('admin.edit_article', compact('article'));
+            if (!$article) {
+                return redirect('/article_management.html?error_message=' . urlencode('Artikel dengan ID ' . $id . ' tidak ditemukan.'));
+            }
+
+            $categories = DB::table('categories')->orderBy('name', 'asc')->get();
+            
+            // Path ke view: resources/views/admin/articles/edit.blade.php
+            return view('admin.articles.edit', compact('article', 'categories'));
+
+        } catch (\Exception $e) {
+            Log::error('Error loading edit article form for ID ' . $id . ': ' . $e->getMessage());
+            return redirect('/article_management.html?error_message=' . urlencode('Gagal memuat form edit artikel.'));
+        }
     }
 
     /**
-     * Update the specified article
+     * Mengupdate artikel dari form edit.
+     * PUT /admin/articles/{id}
      */
     public function update(Request $request, $id)
     {
-        // Validasi input
-        $validatedData = $request->validate([
-            'title' => 'required|max:255',
-            'content' => 'required',
-            'author' => 'required|max:100',
-            'category' => 'required',
-            'status' => 'required|in:draft,published,archived',
-            'excerpt' => 'nullable',
-            'tags' => 'nullable',
-            'published_at' => 'nullable|date',
-            'featured_image' => 'nullable|url'
-        ]);
-
-        // Logic untuk update artikel di database
-        // Contoh:
-        // $article = Article::findOrFail($id);
-        // $article->update($validatedData);
-
-        // Response JSON untuk AJAX request
-        if ($request->expectsJson()) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Artikel berhasil diupdate!',
-                'data' => $validatedData
-            ]);
+        $article = DB::table('articles')->find($id);
+        if (!$article) {
+             return redirect('/article_management.html?status=error&message=' . urlencode('Artikel tidak ditemukan untuk diupdate.'));
         }
 
-        // Redirect untuk form biasa
-        return redirect()->route('admin.articles.edit', $id)
-                        ->with('success', 'Artikel berhasil diupdate!');
-    }
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'category_id' => 'required|integer|exists:categories,id',
+            // Tambahkan validasi untuk field lain jika ada di form edit Anda
+        ]);
 
-    /**
-     * Remove the specified article
-     */
-    public function destroy($id)
-    {
-        // Logic untuk hapus artikel
-        // Article::findOrFail($id)->delete();
-        
-        return redirect()->route('admin.articles.index')
-                        ->with('success', 'Artikel berhasil dihapus!');
-    }
+        if ($validator->fails()) {
+            return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
 
-    /**
-     * Preview article
-     */
-    public function preview($id)
-    {
-        // Logic untuk preview artikel
-        $article = (object) [
-            'id' => $id,
-            'title' => 'Panduan Lengkap React untuk Pemula',
-            'content' => 'React adalah library JavaScript yang dikembangkan oleh Facebook...',
-            'author' => 'Ahmad Fadhil',
-            'category' => 'Programming',
-            'tags' => 'React, JavaScript, Frontend, Tutorial',
-            'status' => 'published',
-            'published_at' => '2024-03-15',
-            'excerpt' => 'Pelajari konsep-konsep dasar React JavaScript library untuk membangun user interface yang interaktif dan modern.',
-            'featured_image' => 'https://via.placeholder.com/800x400/3b82f6/ffffff?text=React+Tutorial'
-        ];
-
-        return view('admin.articles.preview', compact('article'));
+        try {
+            DB::table('articles')
+                ->where('id', $id)
+                ->update([
+                    'title' => $request->input('title'),
+                    'content' => $request->input('content'),
+                    'category_id' => $request->input('category_id'),
+                    'updated_at' => Carbon::now(),
+                    // Tambahkan field lain dari form edit Anda
+                ]);
+            
+            return redirect('/admin/articles/' . $id . '/edit?status=success&message=' . urlencode('Artikel berhasil diupdate!'));
+        } catch (\Exception $e) {
+            Log::error('Update Article (from View) Failed for ID ' . $id . ': ' . $e->getMessage());
+             return redirect()->back()
+                        ->withInput()
+                        ->with('error_message_param', urlencode('Gagal mengupdate artikel: Terjadi kesalahan server.'));
+        }
     }
 }

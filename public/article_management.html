@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Management System</title>
+    <link rel="stylesheet" href="style_artikel.css"> </head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>
+                <div class="icon">📰</div>
+                Article Management System
+            </h1>
+            <p>Daftar dan Kelola Artikel</p>
+            <nav class="main-nav">
+                <a href="index.html">Manajemen Kategori</a> | 
+                <a href="tambah_artikel.html">Tambah Artikel (Lama)</a> |
+                <a href="article_management.html">Kelola Artikel</a>
+            </nav>
+        </div>
+
+        <div class="controls">
+            <button id="addNewArticleBtn" class="btn btn-primary">
+                + Add New Article
+            </button>
+            <button id="refreshArticlesBtn" class="btn btn-secondary">
+                🔄 Refresh Data
+            </button>
+        </div>
+
+        <div id="loadingIndicator" style="display: none; text-align: center; padding: 20px;">Memuat data artikel...</div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>NO</th>
+                        <th>TITLE</th>
+                        <th>CATEGORY</th>
+                        <th>CONTENT (Preview)</th>
+                        <th>ACTIONS</th>
+                    </tr>
+                </thead>
+                <tbody id="articleTableBody">
+                    <tr><td colspan="5" style="text-align:center;">Tidak ada artikel.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="articleModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Add New Article</h3>
+                <button class="close-button" onclick="articleManager.hideModal()">&times;</button>
+            </div>
+            <form id="articleFormModal">
+                <input type="hidden" id="articleId" name="articleId"> <div class="form-group">
+                    <label for="modalTitleInput">Title</label>
+                    <input type="text" id="modalTitleInput" name="title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="modalCategorySelect">Category</label>
+                    <select id="modalCategorySelect" name="category_id" required>
+                        <option value="">Memuat kategori...</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="modalContentTextarea">Content</label>
+                    <textarea id="modalContentTextarea" name="content" rows="8" required></textarea>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="articleManager.hideModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Article</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="apiStatus" class="api-status disconnected">● API Disconnected</div>
+    
+    <div id="notificationContainer"></div>
+
+
+    <script src="article_manager.js"></script>
+    <script>
+        // Inisialisasi ArticleManager setelah DOM siap
+        document.addEventListener('DOMContentLoaded', () => {
+            window.articleManager = new ArticleManager();
+        });
+    </script>
+</body>
+</html>

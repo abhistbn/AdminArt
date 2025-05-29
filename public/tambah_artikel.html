@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tambah Artikel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .animate-spin {
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    /* Menambahkan style untuk pesan sukses/error yang lebih jelas */
+    #message.success {
+      background-color: #d1fae5; /* Tailwind green-100 */
+      color: #065f46; /* Tailwind green-800 */
+      border: 1px solid #6ee7b7; /* Tailwind green-300 */
+    }
+    #message.error {
+      background-color: #fee2e2; /* Tailwind red-100 */
+      color: #991b1b; /* Tailwind red-800 */
+      border: 1px solid #fca5a5; /* Tailwind red-300 */
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+  <div class="bg-white shadow-sm border-b">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center space-x-4">
+          <button onclick="history.back()" class="flex items-center text-gray-600 hover:text-gray-900 transition-colors">
+            <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+            Kembali
+          </button>
+          <div class="border-l border-gray-300 h-6"></div>
+          <h1 class="text-xl font-semibold text-gray-900 flex items-center">
+            <svg class="h-6 w-6 mr-2 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M12 5v14M5 12h14" />
+            </svg>
+            Tambah Artikel Baru
+          </h1>
+        </div>
+        <div class="flex items-center space-x-2">
+          <span class="text-sm text-gray-500">Admin Panel</span>
+          <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+            <span class="text-white text-sm font-medium">A</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+    <div id="message" class="hidden mb-6 p-4 rounded-lg flex items-center">
+        </div>
+
+    <form id="articleForm" class="bg-white rounded-lg shadow-sm border">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-medium text-gray-900 flex items-center">
+          <svg class="h-5 w-5 mr-2 text-gray-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M4 4h16v16H4z" />
+          </svg>
+          Informasi Artikel
+        </h2>
+        <p class="mt-1 text-sm text-gray-600">Lengkapi form di bawah untuk menambah artikel baru</p>
+      </div>
+
+      <div class="p-6 space-y-6">
+        <div>
+          <label for="title" class="flex items-center text-sm font-medium text-gray-700 mb-2">
+            Judul Artikel <span class="text-red-500 ml-1">*</span>
+          </label>
+          <input type="text" name="title" id="title" placeholder="Masukkan judul artikel..." class="w-full px-3 py-2 border rounded-lg border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+          <p id="error-title" class="mt-1 text-sm text-red-600 hidden"></p>
+        </div>
+
+        <div>
+          <label for="category" class="flex items-center text-sm font-medium text-gray-700 mb-2">
+            Kategori <span class="text-red-500 ml-1">*</span>
+          </label>
+          <select name="category" id="category" class="w-full px-3 py-2 border rounded-lg border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            <option value="">Memuat kategori...</option>
+          </select>
+          <p id="error-category" class="mt-1 text-sm text-red-600 hidden"></p>
+        </div>
+
+        <div>
+          <label for="content" class="flex items-center text-sm font-medium text-gray-700 mb-2">
+            Konten Artikel <span class="text-red-500 ml-1">*</span>
+          </label>
+          <textarea name="content" id="content" rows="10" placeholder="Tulis konten artikel di sini..." class="w-full px-3 py-2 border rounded-lg border-gray-300 resize-vertical focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
+          <p id="error-content" class="mt-1 text-sm text-red-600 hidden"></p>
+          <p id="char-count" class="mt-1 text-xs text-gray-500">Minimal 10 karakter (0 karakter)</p>
+        </div>
+
+        <div class="flex items-center justify-between pt-4 border-t border-gray-200">
+          <button type="reset" id="resetButton" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">Reset Form</button>
+          <button type="submit" id="submitButton" class="px-6 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 flex items-center">
+            <svg id="submitIcon" class="h-4 w-4 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M5 13l4 4L19 7" />
+            </svg>
+            <svg id="loadingIcon" class="hidden h-4 w-4 mr-2 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span id="submitButtonText">Simpan Artikel</span>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <div class="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+      <div class="text-sm text-blue-800">
+        <h4 class="font-medium mb-1">Tips Menulis Artikel</h4>
+        <ul class="space-y-1 text-blue-700 list-disc list-inside">
+          <li>Pastikan judul artikel menarik dan deskriptif</li>
+          <li>Pilih kategori yang sesuai</li>
+          <li>Tulis konten yang informatif dan mudah dipahami</li>
+          <li>Gunakan paragraf yang terstruktur dengan baik</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Konfigurasi
+    const API_BASE_URL = "http://localhost:8001/api"; // Pastikan port ini benar
+
+    // Elemen DOM
+    const articleForm = document.getElementById("articleForm");
+    const titleInput = document.getElementById("title");
+    const contentInput = document.getElementById("content");
+    const categorySelect = document.getElementById("category");
+    const messageBox = document.getElementById("message");
+    const charCount = document.getElementById("char-count");
+    const submitButton = document.getElementById("submitButton");
+    const submitButtonText = document.getElementById("submitButtonText");
+    const submitIcon = document.getElementById("submitIcon");
+    const loadingIcon = document.getElementById("loadingIcon");
+    const resetButton = document.getElementById("resetButton");
+
+    const errorFields = {
+      title: document.getElementById("error-title"),
+      content: document.getElementById("error-content"),
+      category: document.getElementById("error-category")
+    };
+
+    // Fungsi untuk menampilkan/menyembunyikan ikon loading
+    function setLoading(isLoading) {
+      if (isLoading) {
+        submitButtonText.textContent = "Menyimpan...";
+        submitIcon.classList.add("hidden");
+        loadingIcon.classList.remove("hidden");
+        submitButton.disabled = true;
+        resetButton.disabled = true;
+      } else {
+        submitButtonText.textContent = "Simpan Artikel";
+        submitIcon.classList.remove("hidden");
+        loadingIcon.classList.add("hidden");
+        submitButton.disabled = false;
+        resetButton.disabled = false;
+      }
+    }
+
+    // Fungsi untuk menghitung karakter
+    contentInput.addEventListener("input", () => {
+      charCount.textContent = `Minimal 10 karakter (${contentInput.value.length} karakter)`;
+    });
+
+    // Mengambil dan mengisi kategori
+    async function fetchAndPopulateCategories() {
+      categorySelect.innerHTML = '<option value="">Memuat kategori...</option>';
+      categorySelect.disabled = true;
+      submitButton.disabled = true; // Disable submit button while categories are loading
+
+      try {
+        const response = await fetch(`${API_BASE_URL}/categories`);
+        const data = await response.json();
+
+        if (!response.ok) {
+          // Error dari server (misal: 500) atau format JSON tidak sesuai
+          throw new Error(data.error || `Gagal memuat kategori: ${response.status}`);
+        }
+        
+        // API Lumen kita mengembalikan { categories: [...] }
+        const categories = data.categories || []; 
+
+        if (categories.length > 0) {
+          categorySelect.innerHTML = '<option value="">Pilih kategori...</option>'; // Opsi default
+          categories.forEach(cat => {
+            const opt = document.createElement("option");
+            opt.value = cat.id; // Menggunakan ID kategori sebagai value
+            opt.textContent = cat.name; // Menampilkan nama kategori
+            categorySelect.appendChild(opt);
+          });
+          categorySelect.disabled = false;
+          submitButton.disabled = false; // Enable submit button after categories loaded
+        } else {
+          categorySelect.innerHTML = '<option value="">Tidak ada kategori. Tambah dulu!</option>';
+          // Biarkan tombol submit disabled jika tidak ada kategori
+        }
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+        categorySelect.innerHTML = '<option value="">Gagal memuat kategori</option>';
+        showMessage("error", `Kesalahan: ${error.message}`);
+        // Biarkan tombol submit disabled jika gagal memuat kategori
+      }
+    }
+
+    // Fungsi untuk menampilkan pesan (alert)
+    function showMessage(type, text) {
+      messageBox.className = `mb-6 p-4 rounded-lg flex items-center ${type}`; // Cukup type saja
+      messageBox.innerHTML = `
+        <svg class="h-5 w-5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="${type === "success" 
+            ? "M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" 
+            : "M10 18a8 8 0 100-16 8 8 0 000 16zm-1-5a1 1 0 002 0v-2a1 1 0 10-2 0v2zm0-4a1 1 0 102 0 1 1 0 00-2 0z"
+          }" clip-rule="evenodd"/>
+        </svg>
+        <span>${text}</span>`;
+      messageBox.classList.remove("hidden");
+
+      setTimeout(() => {
+        messageBox.classList.add("hidden");
+        messageBox.textContent = "";
+        messageBox.className = "hidden mb-6 p-4 rounded-lg flex items-center";
+      }, 5000); // Pesan hilang setelah 5 detik
+    }
+    
+    // Fungsi untuk menampilkan error di bawah field
+    function showError(field, message) {
+      const el = errorFields[field];
+      if (el) {
+        el.textContent = message;
+        el.classList.remove("hidden");
+      }
+    }
+
+    // Fungsi untuk membersihkan error field
+    function clearErrors() {
+      Object.values(errorFields).forEach(el => {
+        if (el) {
+          el.classList.add("hidden");
+          el.textContent = "";
+        }
+      });
+    }
+
+    // Submit form artikel
+    articleForm.addEventListener("submit", async function(e) {
+      e.preventDefault();
+      clearErrors(); // Bersihkan error field sebelumnya
+      messageBox.classList.add("hidden"); // Sembunyikan pesan global sebelumnya
+
+      const title = titleInput.value.trim();
+      const content = contentInput.value.trim();
+      const category_id = categorySelect.value; // Ini sudah ID karena <option value="id">
+
+      let isValid = true;
+
+      if (!title || title.length < 5) {
+        showError("title", "Judul minimal 5 karakter.");
+        isValid = false;
+      }
+
+      if (!content || content.length < 10) {
+        showError("content", "Konten minimal 10 karakter.");
+        isValid = false;
+      }
+
+      if (!category_id) { // Jika value-nya kosong (misal dari "-- Pilih kategori --")
+        showError("category", "Kategori wajib dipilih.");
+        isValid = false;
+      }
+
+      if (!isValid) {
+        showMessage("error", "Mohon periksa kembali isian form Anda.");
+        return;
+      }
+
+      setLoading(true); // Tampilkan loading
+
+      const articleData = { 
+        title, 
+        content, 
+        category_id: parseInt(category_id, 10) // Pastikan integer
+      };
+
+      try {
+        const response = await fetch(`${API_BASE_URL}/articles`, {
+          method: "POST",
+          headers: { 
+            "Content-Type": "application/json",
+            "Accept": "application/json" 
+          },
+          body: JSON.stringify(articleData)
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          // Tangani error dari server Lumen
+          if (result.errors) { // Error validasi Lumen
+            Object.keys(result.errors).forEach(fieldKey => {
+              // Coba petakan fieldKey ke field di form, contoh 'category_id' -> 'category'
+              const formFieldKey = fieldKey === 'category_id' ? 'category' : fieldKey;
+              showError(formFieldKey, result.errors[fieldKey][0]);
+            });
+            throw new Error("Data tidak valid. Mohon periksa error di bawah setiap field.");
+          } else { // Error umum dari Lumen
+            throw new Error(result.error || `Gagal menyimpan artikel (Status: ${response.status})`);
+          }
+        }
+
+        showMessage("success", result.message || "Artikel berhasil disimpan!");
+        articleForm.reset(); // Reset form
+        charCount.textContent = "Minimal 10 karakter (0 karakter)"; // Reset char count
+        categorySelect.value = ""; // Reset dropdown ke pilihan default
+        // populateCategoriesDropdown(); // Opsional: Muat ulang kategori jika perlu
+
+      } catch (error) {
+        console.error("Error submitting article:", error);
+        showMessage("error", `Kesalahan: ${error.message}`);
+      } finally {
+        setLoading(false); // Sembunyikan loading
+      }
+    });
+
+    resetButton.addEventListener("click", () => {
+        clearErrors();
+        messageBox.classList.add("hidden");
+        charCount.textContent = "Minimal 10 karakter (0 karakter)";
+    });
+
+    // Panggil fungsi untuk mengambil kategori saat halaman dimuat
+    fetchAndPopulateCategories();
+  </script>
+</body>
+</html>
